@@ -8,6 +8,7 @@
 
 
 void	_puts(const char *str);
+char *_strdup_till(const char *str, int (*func)(char));
 char	*read_file(int file);
 unsigned int _strlen(const char *str);
 void _bzero(void *addr, unsigned int size);
