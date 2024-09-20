@@ -1,17 +1,20 @@
 #include "bsq.h"
 
-void	_puts(const char *str) {
+void	_puts(const char *str)
+{
 	int	i;
 
 	i = 0;
-	while(str[i]) {
+	while(str[i])
+	{
 		write(1, &str[i], 1);
 		i++;
 	}
 }
 
 
-unsigned int _strlen(const char *str) {
+unsigned int _strlen(const char *str)
+{
 	unsigned int i;
 
 	i = 0;
@@ -22,7 +25,8 @@ unsigned int _strlen(const char *str) {
 	return (i);
 }
 
-char *_strdup(const char *str) {
+char *_strdup(const char *str)
+{
 	int	i;
 	char *dup;
 
@@ -34,7 +38,8 @@ char *_strdup(const char *str) {
 	if (!dup)
 		return (NULL);
 	i = 0;
-	while (str[i]) {
+	while (str[i])
+	{
 		dup[i] = str[i];
 		i++;
 	}
@@ -42,33 +47,83 @@ char *_strdup(const char *str) {
 	return (dup);
 }
 
-int	is_delim(const char *charset, char delim) {
+int	is_delim(const char *charset, char delim)
+{
 	int	i;
 
 	i = 0;
-	while (charset[i]) {
+	while (charset[i])
+	{
 		if (charset[i] == delim)
-			return (0);
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
-char *_strdup_till(const char *str, int (*func)(char)) {
+static char *_strdup_till(const char *str, const char *charset)
+{
 	int i;
 	char *dup;
 
 	i = 0;
-	while (str[i] && func(str[i]))
+	while (str[i] && !is_delim(charset, str[i]))
 		i++;
-	i = 0;
 	dup = (char *)malloc(sizeof(char) * (i + 1));
 	if (!dup)
 		return (NULL);
-	while (str[i] && func(str[i])) {
+	i = 0;
+	while (str[i] && !is_delim(charset, str[i]))
+	{
 		dup[i]  = str[i];
 		i++;
 	}
 	dup[i] = '\0';
 	return (dup);
+}
+
+char	**allocate_list(const char *str, const char *charset)
+{
+	int		i;
+	int		count;
+	char	**list;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		while (str[i] &&is_delim(charset, str[i]))
+			i++;
+		count++;
+		while (str[i] && !is_delim(charset, str[i]))
+			i++;
+	}
+	list = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!list)
+		return (NULL);
+	return (list);
+}
+
+char	**_split(const char *str, const char *charset)
+{
+	int		i;
+	int		count;
+	char	**list;
+
+	i = 0;
+	count = 0;
+	list = allocate_list(str, charset);
+	if (!list)
+		return (NULL);
+	while (str[i])
+	{
+		while (str[i] && is_delim(charset, str[i]))
+			i++;
+		list[count] = _strdup_till(str + i, charset);
+		count++;
+		while (str[i] && !is_delim(charset, str[i]))
+			i++;
+	}
+	list[count]  = NULL;
+	return (list);
 }
