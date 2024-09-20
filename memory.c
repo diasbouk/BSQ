@@ -1,16 +1,16 @@
 #include "bsq.h"
 
-void _bzero(void *addr, unsigned int size) {
-  char			*ptr;
-  unsigned int	i;
+void _bzero(void *addr, unsigned int size)
+{
+	char			*ptr;
+	unsigned int	i;
 
-  if (!addr)
-    return;
-  ptr = (char *)addr;
-  i = 0;
-  while (i < size) {
-    ptr[i++] = '\0';
-  }
+	if (!addr)
+		return;
+	ptr = (char *)addr;
+	i = 0;
+	while (i < size)
+		ptr[i++] = '\0';
 }
 
 
@@ -39,13 +39,15 @@ static unsigned int	ft_min(unsigned int a, unsigned int b) {
 	return (b);
 }
 
-void	*ft_realloc(void *old,unsigned int old_size, unsigned int new_size) {
+void	*ft_realloc(void *old,unsigned int old_size, unsigned int new_size)
+{
 
 	void	*new;
 
 	if (!old)
 		return (NULL);
-	if (new_size == 0) {
+	if (new_size == 0)
+	{
 		free(old);
 		return (NULL);
 	}
