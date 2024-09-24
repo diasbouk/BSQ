@@ -12,7 +12,16 @@ typedef struct map_st {
 	char obstacle;
 	char empty;
 	char full;
+	char **lines;
 } map_st;
+
+typedef struct solution_st
+{
+	int	x;
+	int y;
+	int max;
+	char full;
+} solution_st;
 
 /* Strings funcs */
 void	_puts(const char *str);
@@ -28,4 +37,7 @@ void	*ft_memcpy(void *dest, void *src, unsigned int size);
 void	*ft_realloc(void *old,unsigned int old_size, unsigned int new_size);
 
 /* Parsing funcs */
-map_st	*parse_line(const char *line);
+map_st	*parse_buffer(const char *line);
+void	draw_solution(char **map, int x, int y, char full, int max);
+int	check_box(char **map, int x, int y, int	max);
+int get_max(char **map, int x, int y);
