@@ -13,6 +13,15 @@ void _bzero(void *addr, unsigned int size)
 		ptr[i++] = '\0';
 }
 
+void free_d(char **list)
+{
+	int	i;
+
+	i = 0;
+	while (list[i])
+		free(list[i++]);
+	free(list);
+}
 
 void	*ft_memcpy(void *dest, void *src, unsigned int size)
 {
