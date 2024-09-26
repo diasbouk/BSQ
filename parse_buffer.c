@@ -29,21 +29,11 @@ static int	is_valid_line(const char *line)
 	return (1);
 }
 
-void	free_d(char **list)
-{
-	int	i;
-
-	i = 0;
-	while (list[i++])
-		free(list[i]);
-	free(list);
-}
-
 map_st	*parse_buffer(const char *buffer)
 {
 	map_st *map;
-	int	i;
-	int	len;
+	unsigned int	i;
+	unsigned int	len;
 	char	*line;
 
 	map = (map_st *)malloc(sizeof(map_st));
@@ -61,5 +51,17 @@ map_st	*parse_buffer(const char *buffer)
 	map->empty = line[len - 3];
 	map->obstacle = line[len - 2];
 	map->full = line[len - 1];
+	i = 2;
+	len = _strlen(map->lines[1]);
+	while (map->lines[i + 1])
+	{
+		if (_strlen(map->lines[i]) != len)
+		{
+			free_d(map->lines);
+			free(map);
+			return (NULL);
+		}
+		i++;
+	}
 	return (map);
 }
